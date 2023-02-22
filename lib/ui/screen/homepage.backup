@@ -1,0 +1,151 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 85, 237, 62),
+      ),
+      drawer: Drawer(),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text("User Details",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+            Table(
+              textDirection: TextDirection.ltr,
+              // defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
+              border: TableBorder.all(width: 1.0, color: Colors.black),
+              children: const [
+                TableRow(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                  ),
+                  children: [
+                    CustomTableHeading(
+                      label: "Name",
+                    ),
+                    CustomTableHeading(
+                      label: "Email",
+                    ),
+                    CustomTableHeading(
+                      label: "Phone Number",
+                    ),
+                    CustomTableHeading(
+                      label: "ID Proof",
+                    ),
+                    CustomTableHeading(
+                      label: "Active Status",
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(
+                      "vishal",
+                      textScaleFactor: 1.5,
+                    ),
+                    Text("vishal122001@gmail.com", textScaleFactor: 1.5),
+                    Text("9744127828", textScaleFactor: 1.5),
+                    Text("123xxxxxxx", textScaleFactor: 1.5),
+                    Text("Active Status", textScaleFactor: 1.5),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTableHeading extends StatelessWidget {
+  final String label;
+  const CustomTableHeading({
+    super.key,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 5,
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+    );
+  }
+}
