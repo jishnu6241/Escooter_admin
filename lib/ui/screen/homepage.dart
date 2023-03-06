@@ -1,4 +1,7 @@
+import 'package:escooter_admin/ui/screen/home_screen_sections/employee_management.dart';
+import 'package:escooter_admin/ui/screen/home_screen_sections/scooter_management.dart';
 import 'package:escooter_admin/ui/screen/home_screen_sections/user_management.dart';
+import 'package:escooter_admin/ui/screen/hub_management.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +17,11 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(
+      length: 5,
+      vsync: this,
+      initialIndex: 2,
+    );
     super.initState();
   }
 
@@ -24,7 +31,7 @@ class _HomePageState extends State<HomePage>
       body: Row(
         children: [
           Material(
-            color: Colors.grey[200],
+            color: Color.fromARGB(169, 238, 238, 238),
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 15,
@@ -87,7 +94,7 @@ class _HomePageState extends State<HomePage>
                     height: 10,
                   ),
                   CustomDrawerButton(
-                    iconData: Icons.electric_bike_outlined,
+                    iconData: Icons.electric_moped_outlined,
                     onPressed: () {
                       tabController.animateTo(4);
                       setState(() {});
@@ -107,15 +114,9 @@ class _HomePageState extends State<HomePage>
                   color: Colors.blueGrey,
                 ),
                 UserManagementSection(),
-                Container(
-                  color: Colors.red,
-                ),
-                Container(
-                  color: Colors.black,
-                ),
-                Container(
-                  color: Colors.green,
-                ),
+                EmployeeManagementSection(),
+                HubManagementSection(),
+                ScooterManagementSection(),
               ],
             ),
           ),

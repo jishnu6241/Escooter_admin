@@ -1,4 +1,6 @@
+import 'package:escooter_admin/ui/screen/home_screen_sections/scooter_management.dart';
 import 'package:escooter_admin/ui/screen/homepage.dart';
+import 'package:escooter_admin/ui/screen/hub_management.dart';
 import 'package:flutter/material.dart';
 
 void main() {
