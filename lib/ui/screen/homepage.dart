@@ -1,3 +1,4 @@
+import 'package:escooter_admin/ui/screen/home_screen_sections/dashboard.dart';
 import 'package:escooter_admin/ui/screen/home_screen_sections/employee_management.dart';
 import 'package:escooter_admin/ui/screen/home_screen_sections/scooter_management.dart';
 import 'package:escooter_admin/ui/screen/home_screen_sections/user_management.dart';
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     tabController = TabController(
-      length: 5,
+      length: 6,
       vsync: this,
       initialIndex: 2,
     );
@@ -101,6 +102,17 @@ class _HomePageState extends State<HomePage>
                     },
                     isSelected: tabController.index == 4,
                   ),
+                  CustomDrawerButton(
+                    iconData: Icons.settings,
+                    onPressed: () {
+                      tabController.animateTo(5);
+                      setState(() {});
+                    },
+                    isSelected: tabController.index == 5,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
                 ],
               ),
             ),
@@ -110,12 +122,11 @@ class _HomePageState extends State<HomePage>
               controller: tabController,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                Container(
-                  color: Colors.blueGrey,
-                ),
+                DashBoard(),
                 UserManagementSection(),
                 EmployeeManagementSection(),
                 HubManagementSection(),
+                ScooterManagementSection(),
                 ScooterManagementSection(),
               ],
             ),

@@ -4,23 +4,79 @@ import 'package:flutter/material.dart';
 class UserManagementSection extends StatelessWidget {
   const UserManagementSection({super.key});
 
+  get searchController => null;
+
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 15,
           ),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "USER MANAGEMENT",
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "USER MANAGEMENT",
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                ),
+                const SizedBox(
+                  width: 200,
+                ),
+                SizedBox(
+                  width: 600,
+                  child: TextFormField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Search',
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 6, top: 6),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              child: Text(
+                                "Search",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(
+                          width: 0,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ),
                   ),
+                ),
+              ],
             ),
           ),
         ),

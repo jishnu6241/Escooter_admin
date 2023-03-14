@@ -1,6 +1,8 @@
+import 'package:escooter_admin/ui/screen/home_screen_sections/dashboard.dart';
 import 'package:escooter_admin/ui/screen/home_screen_sections/scooter_management.dart';
 import 'package:escooter_admin/ui/screen/homepage.dart';
 import 'package:escooter_admin/ui/screen/hub_management.dart';
+import 'package:escooter_admin/ui/screen/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const Login(),
       debugShowCheckedModeBanner: false,
     );
   }

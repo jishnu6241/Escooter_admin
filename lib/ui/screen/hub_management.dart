@@ -18,7 +18,7 @@ class HubManagementSection extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 "HUB MANAGEMENT",
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
