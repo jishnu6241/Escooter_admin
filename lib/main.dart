@@ -1,7 +1,4 @@
-import 'package:escooter_admin/ui/screen/home_screen_sections/dashboard.dart';
-import 'package:escooter_admin/ui/screen/home_screen_sections/scooter_management.dart';
-import 'package:escooter_admin/ui/screen/homepage.dart';
-import 'package:escooter_admin/ui/screen/hub_management.dart';
+import 'package:escooter_admin/ui/screen/home_screen.dart';
 import 'package:escooter_admin/ui/screen/login.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +12,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      title: 'Escooter Admin',
+      theme: ThemeData.light().copyWith(
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.greenAccent[100],
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 15,
+          ),
+          iconColor: Colors.greenAccent,
+          prefixIconColor: Colors.greenAccent,
+          suffixIconColor: Colors.greenAccent,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+        ),
       ),
-      home: const Login(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
