@@ -1,11 +1,16 @@
+import 'package:escooter_admin/blocs/withdraw_request/withdraw_request_bloc.dart';
 import 'package:escooter_admin/ui/widgets/custom_action_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/label_with_text.dart';
 import 'package:flutter/material.dart';
 
 class WithdrawRequestCard extends StatelessWidget {
+  final Map<String, dynamic> withdrawRequest;
+  final WithdrawRequestBloc withdrawRequestBloc;
   const WithdrawRequestCard({
     super.key,
+    required this.withdrawRequest,
+    required this.withdrawRequestBloc,
   });
 
   @override
@@ -22,14 +27,16 @@ class WithdrawRequestCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "#11",
+                    "#${withdrawRequest['id'].toString()}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
                   Text(
-                    "Pending",
+                    withdrawRequest['status'] == 'pending'
+                        ? 'Pending'
+                        : 'Withdrawed',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -38,10 +45,10 @@ class WithdrawRequestCard extends StatelessWidget {
                 ],
               ),
               const Divider(
-                height: 10,
+                height: 15,
               ),
               Text(
-                "#13",
+                "#${withdrawRequest['user']['id']}",
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
@@ -51,18 +58,18 @@ class WithdrawRequestCard extends StatelessWidget {
                 height: 3,
               ),
               Row(
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Name',
-                      text: 'John',
+                      text: withdrawRequest['user']['name'],
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Phone',
-                      text: '9876543210',
+                      text: withdrawRequest['user']['phone'],
                     ),
                   ),
                 ],
@@ -71,21 +78,27 @@ class WithdrawRequestCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                '₹500',
+                '₹${withdrawRequest['desposit_amount'].toString()}',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              const Divider(
-                height: 30,
+              Divider(
+                height: withdrawRequest['status'] == 'pending' ? 30 : 0,
               ),
-              CustomActionButton(
-                iconData: Icons.done_all_outlined,
-                label: 'Payment Done',
-                color: Colors.blue[700]!,
-                onPressed: () {},
-              ),
+              withdrawRequest['status'] == 'pending'
+                  ? CustomActionButton(
+                      iconData: Icons.done_all_outlined,
+                      label: 'Payment Done',
+                      color: Colors.blue[700]!,
+                      onPressed: () {
+                        withdrawRequestBloc.add(
+                          UpdateWithdrawRequestStatusEvent(status: 'paid'),
+                        );
+                      },
+                    )
+                  : const SizedBox(),
             ],
           ),
         ),

@@ -37,5 +37,5 @@ class GetAllScooterEvent extends ScooterEvent {
   final String? query;
   final String status;
 
-  GetAllScooterEvent({this.query, this.status = 'ride'});
+  GetAllScooterEvent({this.query, this.status = 'hold'});
 }

@@ -2,10 +2,13 @@ import 'package:escooter_admin/ui/widgets/custom_action_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/label_with_text.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserCard extends StatelessWidget {
+  final Map<String, dynamic> userDetails;
   const UserCard({
     super.key,
+    required this.userDetails,
   });
 
   @override
@@ -20,7 +23,7 @@ class UserCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '#12',
+                '#${userDetails['id'].toString()}',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Colors.black,
                     ),
@@ -29,18 +32,18 @@ class UserCard extends StatelessWidget {
                 height: 10,
               ),
               Row(
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Name',
-                      text: 'John',
+                      text: userDetails['name'],
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Phone',
-                      text: '9876543210',
+                      text: userDetails['phone'],
                     ),
                   ),
                 ],
@@ -49,18 +52,18 @@ class UserCard extends StatelessWidget {
                 height: 10,
               ),
               Row(
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Bank',
-                      text: 'SBI',
+                      text: userDetails['bank_name'],
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'IFSC',
-                      text: 'SEWQ122332',
+                      text: userDetails['bank_ifsc'],
                     ),
                   ),
                 ],
@@ -68,16 +71,16 @@ class UserCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const LabelWithText(
+              LabelWithText(
                 label: 'Account Number',
-                text: '123343343321',
+                text: userDetails['bank_ac_no'],
               ),
               const SizedBox(
                 height: 10,
               ),
-              const LabelWithText(
+              LabelWithText(
                 label: 'Deposit',
-                text: '₹500',
+                text: '₹${userDetails['deposit_amount'].toString()}',
               ),
               const Divider(
                 height: 30,
@@ -86,7 +89,12 @@ class UserCard extends StatelessWidget {
                 iconData: Icons.arrow_outward_outlined,
                 label: 'View Proof',
                 color: Colors.purple[700]!,
-                onPressed: () {},
+                onPressed: () async {
+                  Uri uri = Uri.parse(userDetails['proof_doc_url']);
+                  if (await canLaunchUrl(uri)) {
+                    launchUrl(uri);
+                  }
+                },
               ),
             ],
           ),

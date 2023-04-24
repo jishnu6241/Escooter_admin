@@ -1,10 +1,13 @@
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/label_with_text.dart';
+import 'package:escooter_admin/util/get_date.dart';
 import 'package:flutter/material.dart';
 
 class SuggestionCard extends StatelessWidget {
+  final Map<String, dynamic> suggestion;
   const SuggestionCard({
     super.key,
+    required this.suggestion,
   });
 
   @override
@@ -22,13 +25,13 @@ class SuggestionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '#12',
+                    '#${suggestion['id'].toString()}',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: Colors.black87,
                         ),
                   ),
                   Text(
-                    '19/04/2023',
+                    getDate(DateTime.parse(suggestion['created_at'])),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: Colors.black,
                         ),
@@ -39,7 +42,7 @@ class SuggestionCard extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et sapien eget sem ornare lacinia quis a sapien. ',
+                suggestion['suggestion'],
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: Colors.black,
                     ),
@@ -48,7 +51,7 @@ class SuggestionCard extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                '#11',
+                '#${suggestion['profile']['id'].toString()}',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Colors.black87,
                     ),
@@ -58,18 +61,18 @@ class SuggestionCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Name',
-                      text: 'John',
+                      text: suggestion['profile']['name'],
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Phone',
-                      text: '987654321',
+                      text: suggestion['profile']['phone'],
                     ),
                   ),
                 ],

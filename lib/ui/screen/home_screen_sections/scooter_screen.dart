@@ -17,7 +17,7 @@ class ScooterScreen extends StatefulWidget {
 }
 
 class _ScooterScreenState extends State<ScooterScreen> {
-  String status = 'ride';
+  String status = 'hold';
   ScooterBloc scooterBloc = ScooterBloc();
 
   String? query;
@@ -106,16 +106,16 @@ class _ScooterScreenState extends State<ScooterScreen> {
                       vertical: 10,
                     ),
                     children: {
-                      'ride': Text(
-                        'On Ride',
+                      'hold': Text(
+                        'On Hold',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.green,
                                   fontWeight: FontWeight.w500,
                                 ),
                       ),
-                      'hold': Text(
-                        'On Hold',
+                      'ride': Text(
+                        'On Ride',
                         style:
                             Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Colors.green,

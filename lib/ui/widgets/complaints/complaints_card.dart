@@ -1,10 +1,13 @@
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/label_with_text.dart';
+import 'package:escooter_admin/util/get_date.dart';
 import 'package:flutter/material.dart';
 
 class ComplaintCard extends StatelessWidget {
+  final Map<String, dynamic> complaints;
   const ComplaintCard({
     super.key,
+    required this.complaints,
   });
 
   @override
@@ -24,13 +27,13 @@ class ComplaintCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '#12',
+                      '#${complaints['id'].toString()}',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Colors.black87,
                           ),
                     ),
                     Text(
-                      '19/04/2023',
+                      getDate(DateTime.parse(complaints['created_at'])),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: Colors.black,
                           ),
@@ -41,7 +44,7 @@ class ComplaintCard extends StatelessWidget {
                   height: 30,
                 ),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et sapien eget sem ornare lacinia quis a sapien.',
+                  complaints['complaint'],
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Colors.black,
                       ),
@@ -49,15 +52,17 @@ class ComplaintCard extends StatelessWidget {
                 const Divider(
                   height: 30,
                 ),
-                const LabelWithText(
+                LabelWithText(
                   label: 'Plate number',
-                  text: 'KL 13 A 1234',
+                  text: complaints['scooter']['plate_no']
+                      .toString()
+                      .toUpperCase(),
                 ),
                 const Divider(
                   height: 30,
                 ),
                 Text(
-                  '#11',
+                  '#${complaints['profile']['id'].toString()}',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: Colors.black87,
                       ),
@@ -67,18 +72,18 @@ class ComplaintCard extends StatelessWidget {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Expanded(
                       child: LabelWithText(
                         label: 'Name',
-                        text: 'John',
+                        text: complaints['profile']['name'],
                       ),
                     ),
                     Expanded(
                       child: LabelWithText(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         label: 'Phone',
-                        text: '987654321',
+                        text: complaints['profile']['phone'],
                       ),
                     ),
                   ],
