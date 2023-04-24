@@ -1,10 +1,17 @@
+import 'package:escooter_admin/blocs/hub/hub_bloc.dart';
+import 'package:escooter_admin/ui/widgets/add_edit_hub_dialog.dart';
 import 'package:escooter_admin/ui/widgets/custom_action_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HubCard extends StatelessWidget {
+  final Map<String, dynamic> hubDetails;
+  final HubBloc hubBloc;
   const HubCard({
     super.key,
+    required this.hubDetails,
+    required this.hubBloc,
   });
 
   @override
@@ -19,7 +26,7 @@ class HubCard extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "#11",
+                  "#${hubDetails['id'].toString()}",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -30,7 +37,7 @@ class HubCard extends StatelessWidget {
                 height: 7,
               ),
               Text(
-                'Hub name',
+                hubDetails['name'],
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -40,7 +47,7 @@ class HubCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'Address line 1, address line 2, city, place, state ,district, pin 670301',
+                hubDetails['address'],
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Colors.black87,
                       fontWeight: FontWeight.normal,
@@ -53,7 +60,12 @@ class HubCard extends StatelessWidget {
                 iconData: Icons.map_outlined,
                 label: 'Map',
                 color: Colors.blue,
-                onPressed: () {},
+                onPressed: () async {
+                  Uri uri = Uri.parse(
+                      'https://www.google.com/maps/search/?api=1&query=${hubDetails['latitude']},${hubDetails['longitude']}');
+
+                  await launchUrl(uri);
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -62,7 +74,15 @@ class HubCard extends StatelessWidget {
                 iconData: Icons.edit_outlined,
                 label: 'Edit',
                 color: Colors.pink,
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AddEditHubDialog(
+                      hubDetails: hubDetails,
+                      hubBloc: hubBloc,
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 height: 10,
@@ -71,7 +91,11 @@ class HubCard extends StatelessWidget {
                 iconData: Icons.delete_forever_outlined,
                 label: 'Delete',
                 color: Colors.red[700]!,
-                onPressed: () {},
+                onPressed: () {
+                  hubBloc.add(DeleteHubEvent(
+                    id: hubDetails['id'],
+                  ));
+                },
               ),
             ],
           ),

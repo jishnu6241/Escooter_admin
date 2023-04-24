@@ -3,6 +3,7 @@ import 'package:escooter_admin/ui/screen/home_screen.dart';
 import 'package:escooter_admin/ui/widgets/custom_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/custom_input_form_field.dart';
+import 'package:escooter_admin/util/value_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,15 +20,15 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObscure = true;
   @override
   void initState() {
-    // Future.delayed(const Duration(milliseconds: 100), () {
-    //   if (Supabase.instance.client.auth.currentUser != null) {
-    //     Navigator.of(context).push(
-    //       MaterialPageRoute(
-    //         builder: (context) => const HomeScreen(),
-    //       ),
-    //     );
-    //   }
-    // });
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (Supabase.instance.client.auth.currentUser != null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+        );
+      }
+    });
     super.initState();
   }
 
@@ -121,32 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 40,
                                 thickness: 0.5,
                               ),
-                              // Text(
-                              //   'Login',
-                              //   style: Theme.of(context)
-                              //       .textTheme
-                              //       .headlineSmall!
-                              //       .copyWith(
-                              //         color: Colors.black,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              // ),
-                              // const SizedBox(
-                              //   height: 5,
-                              // ),
-
                               CustomInputFormField(
                                 controller: _emailController,
                                 prefixIcon: Icons.email,
                                 labelText: 'Email',
-                                validator: (value) {
-                                  if (value != null &&
-                                      value.trim().isNotEmpty) {
-                                    return null;
-                                  } else {
-                                    return "Please enter an email";
-                                  }
-                                },
+                                validator: emailValidator,
                               ),
                               const SizedBox(
                                 height: 10,

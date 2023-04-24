@@ -1,14 +1,20 @@
+import 'package:escooter_admin/blocs/hub/hub_bloc.dart';
 import 'package:escooter_admin/ui/widgets/custom_action_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_alert_dialog.dart';
 import 'package:escooter_admin/ui/widgets/custom_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
+import 'package:escooter_admin/ui/widgets/map_location_selector.dart';
+import 'package:escooter_admin/util/value_validators.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddEditHubDialog extends StatefulWidget {
   final Map<String, dynamic>? hubDetails;
+  final HubBloc hubBloc;
   const AddEditHubDialog({
     super.key,
     this.hubDetails,
+    required this.hubBloc,
   });
 
   @override
@@ -19,12 +25,15 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  LatLng? location;
 
   @override
   void initState() {
     if (widget.hubDetails != null) {
       _nameController.text = widget.hubDetails!['name'];
       _addressController.text = widget.hubDetails!['address'];
+      location = LatLng(
+          widget.hubDetails!['latitude'], widget.hubDetails!['longitude']);
     }
     super.initState();
   }
@@ -39,6 +48,7 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
           : "Enter the following details to add a hub",
       content: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: ListView(
           shrinkWrap: true,
           children: [
@@ -53,13 +63,7 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
             CustomCard(
               child: TextFormField(
                 controller: _nameController,
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    return null;
-                  } else {
-                    return 'Please enter hub name';
-                  }
-                },
+                validator: alphaNumericValidator,
                 decoration: const InputDecoration(
                   hintText: 'Hub name',
                 ),
@@ -79,15 +83,9 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
             const SizedBox(height: 5),
             CustomCard(
               child: TextFormField(
-                controller: _nameController,
+                controller: _addressController,
                 maxLines: 3,
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    return null;
-                  } else {
-                    return 'Please enter hub address';
-                  }
-                },
+                validator: alphaNumericValidator,
                 decoration: const InputDecoration(
                   hintText: 'eg.adress line1, address line 2',
                 ),
@@ -98,10 +96,24 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
               color: Color.fromARGB(66, 176, 176, 176),
             ),
             CustomActionButton(
-              color: Colors.grey[600]!,
-              iconData: Icons.upload_outlined,
-              onPressed: () async {},
-              label: 'Add Location',
+              color: location != null ? Colors.blue : Colors.grey[600]!,
+              iconData: location != null ? Icons.check : Icons.map_outlined,
+              onPressed: () async {
+                LatLng? selectedLocation = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const MapLocationSelector(),
+                  ),
+                );
+
+                if (selectedLocation != null) {
+                  location = selectedLocation;
+                  setState(() {});
+                }
+              },
+              label: location != null
+                  ? '${location!.latitude}, ${location!.longitude}'
+                  : 'Add Location',
             ),
             const Divider(
               height: 30,
@@ -113,33 +125,36 @@ class _AddEditHubDialogState extends State<AddEditHubDialog> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   if (widget.hubDetails != null) {
-                    // BlocProvider.of<PatientBloc>(context).add(
-                    //   EditPatientEvent(
-                    //     patientId: widget.patientDetails!['id'],
-                    //     name: _nameController.text.trim(),
-                    //     phone: _phoneNumberController.text.trim(),
-                    //     address: _addressController.text.trim(),
-                    //     city: _cityController.text.trim(),
-                    //     district: _districtController.text.trim(),
-                    //     dob: _dob!,
-                    //     gender: _gender,
-                    //     state: _stateController.text.trim(),
-                    //   ),
-                    // );
-                  } else {
-                    // BlocProvider.of<PatientBloc>(context).add(
-                    //   AddPatientEvent(
-                    //     name: _nameController.text.trim(),
-                    //     phone: _phoneNumberController.text.trim(),
-                    //     address: _addressController.text.trim(),
-                    //     city: _cityController.text.trim(),
-                    //     district: _districtController.text.trim(),
-                    //     dob: _dob!,
-                    //     gender: _gender,
-                    //     state: _stateController.text.trim(),
-                    //   ),
-                    // );
+                    widget.hubBloc.add(
+                      EditHubEvent(
+                        hubId: widget.hubDetails!['id'],
+                        name: _nameController.text.trim(),
+                        address: _addressController.text.trim(),
+                        latLng: location,
+                      ),
+                    );
                     Navigator.pop(context);
+                  } else {
+                    if (location != null) {
+                      widget.hubBloc.add(
+                        AddHubEvent(
+                          name: _nameController.text.trim(),
+                          address: _addressController.text.trim(),
+                          latLng: location!,
+                        ),
+                      );
+                      Navigator.pop(context);
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const CustomAlertDialog(
+                          title: 'Required !',
+                          message:
+                              'Location is required, please select a location.',
+                          primaryButtonLabel: 'Ok',
+                        ),
+                      );
+                    }
                   }
                 }
               },

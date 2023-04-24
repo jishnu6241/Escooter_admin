@@ -1,10 +1,16 @@
+import 'package:escooter_admin/blocs/scooter/scooter_bloc.dart';
+import 'package:escooter_admin/ui/widgets/add_edit_scooter_dialog.dart';
 import 'package:escooter_admin/ui/widgets/custom_action_button.dart';
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
 class ScooterCard extends StatelessWidget {
+  final Map<String, dynamic> scooterDetails;
+  final ScooterBloc scooterBloc;
   const ScooterCard({
     super.key,
+    required this.scooterDetails,
+    required this.scooterBloc,
   });
 
   @override
@@ -20,14 +26,14 @@ class ScooterCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "#11",
+                    "#${scooterDetails['id'].toString()}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                   ),
                   Text(
-                    "On Ride",
+                    scooterDetails['status'] == 'ride' ? 'On Ride' : 'On Hold',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -39,7 +45,7 @@ class ScooterCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'KL 13 A 1234',
+                scooterDetails['plate_no'].toString().toUpperCase(),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -59,7 +65,7 @@ class ScooterCard extends StatelessWidget {
                 height: 3,
               ),
               Text(
-                'Kannur',
+                scooterDetails['hub']['name'],
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.normal,
@@ -68,12 +74,37 @@ class ScooterCard extends StatelessWidget {
               const Divider(
                 height: 30,
               ),
-              CustomActionButton(
-                iconData: Icons.delete_forever_outlined,
-                label: 'Delete',
-                color: Colors.red[700]!,
-                onPressed: () {},
+              scooterDetails['status'] == 'ride'
+                  ? const SizedBox()
+                  : CustomActionButton(
+                      iconData: Icons.delete_forever_outlined,
+                      label: 'Delete',
+                      color: Colors.red[700]!,
+                      onPressed: () {
+                        scooterBloc.add(DeleteScooterEvent(
+                          id: scooterDetails['id'],
+                        ));
+                      },
+                    ),
+              SizedBox(
+                height: scooterDetails['status'] == 'ride' ? 0 : 10,
               ),
+              scooterDetails['status'] == 'ride'
+                  ? const SizedBox()
+                  : CustomActionButton(
+                      iconData: Icons.delete_forever_outlined,
+                      label: 'Update Hub',
+                      color: Colors.purple[700]!,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AddEditScooterDialog(
+                            scooterBloc: scooterBloc,
+                            scooterDetails: scooterDetails,
+                          ),
+                        );
+                      },
+                    ),
             ],
           ),
         ),
