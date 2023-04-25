@@ -31,7 +31,9 @@ class RidesCard extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    rideDetails['status'] == 'complete' ? 'On Hold' : 'On Ride',
+                    rideDetails['status'] == 'complete'
+                        ? 'Completed'
+                        : 'On Ride',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
