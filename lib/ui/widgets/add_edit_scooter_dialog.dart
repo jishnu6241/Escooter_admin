@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 class AddEditScooterDialog extends StatefulWidget {
   final Map<String, dynamic>? scooterDetails;
   final ScooterBloc scooterBloc;
+  final String? status;
   const AddEditScooterDialog({
     super.key,
     this.scooterDetails,
     required this.scooterBloc,
+    this.status,
   });
 
   @override
@@ -106,6 +108,7 @@ class _AddEditScooterDialogState extends State<AddEditScooterDialog> {
                       AddScooterEvent(
                         plateNo: _plateNumberController.text.trim(),
                         parkedHubId: hubId!,
+                        status: widget.status,
                       ),
                     );
                     Navigator.pop(context);

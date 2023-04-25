@@ -72,8 +72,32 @@ class ScooterCard extends StatelessWidget {
                     ),
               ),
               const Divider(
-                height: 30,
+                height: 20,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.key_outlined,
+                    color: Colors.blue[800],
+                  ),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    scooterDetails['key'].toString(),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: Colors.blue[800],
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ),
+              scooterDetails['status'] == 'ride'
+                  ? const SizedBox()
+                  : const Divider(
+                      height: 20,
+                    ),
               scooterDetails['status'] == 'ride'
                   ? const SizedBox()
                   : CustomActionButton(

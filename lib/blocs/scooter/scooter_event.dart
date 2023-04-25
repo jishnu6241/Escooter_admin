@@ -6,10 +6,12 @@ abstract class ScooterEvent {}
 class AddScooterEvent extends ScooterEvent {
   final String plateNo;
   final int parkedHubId;
+  final String? status;
 
   AddScooterEvent({
     required this.plateNo,
     required this.parkedHubId,
+    this.status,
   });
 }
 

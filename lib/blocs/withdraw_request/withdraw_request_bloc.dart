@@ -42,6 +42,12 @@ class WithdrawRequestBloc
             'user_id': supabaseClient.auth.currentUser!.id,
           });
           add(GetAllWithdrawRequestEvent());
+        } else if (event is UpdateWithdrawRequestStatusEvent) {
+          await queryTable.update({
+            'status': 'paid',
+          }).eq('id', event.id);
+
+          add(GetAllWithdrawRequestEvent());
         }
       } catch (e, s) {
         Logger().wtf('$e,$s');

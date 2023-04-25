@@ -10,10 +10,10 @@ class GetAllWithdrawRequestEvent extends WithdrawRequestEvent {
 }
 
 class UpdateWithdrawRequestStatusEvent extends WithdrawRequestEvent {
-  final String status;
+  final int id;
 
   UpdateWithdrawRequestStatusEvent({
-    required this.status,
+    required this.id,
   });
 }
 

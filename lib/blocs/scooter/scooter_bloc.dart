@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
@@ -51,12 +53,14 @@ class ScooterBloc extends Bloc<ScooterEvent, ScooterState> {
           await queryTable.insert({
             'plate_no': event.plateNo,
             'parked_hub_id': event.parkedHubId,
+            'key': generateRandom5DigitInt(),
           });
-          add(GetAllScooterEvent());
+          add(GetAllScooterEvent(status: event.status!));
         } else if (event is EditScooterEvent) {
           await queryTable.update({
             'plate_no': event.plateNo,
             'parked_hub_id': event.parkedHubId,
+            'key': generateRandom5DigitInt(),
           }).eq('id', event.scooterId);
 
           add(GetAllScooterEvent(status: 'hold'));
@@ -70,4 +74,11 @@ class ScooterBloc extends Bloc<ScooterEvent, ScooterState> {
       }
     });
   }
+}
+
+int generateRandom5DigitInt() {
+  Random random = Random();
+  int min = 10000; // minimum 5 digit integer
+  int max = 99999; // maximum 5 digit integer
+  return min + random.nextInt(max - min);
 }

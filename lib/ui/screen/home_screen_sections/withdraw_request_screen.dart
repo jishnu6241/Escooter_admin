@@ -90,6 +90,7 @@ class _WithdrawRequestScreenState extends State<WithdrawRequestScreen> {
                     },
                     onValueChanged: (value) {
                       status = value!;
+                      getRequests();
                       setState(() {});
                     },
                   ),

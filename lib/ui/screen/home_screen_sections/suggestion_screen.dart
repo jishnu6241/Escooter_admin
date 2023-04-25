@@ -47,6 +47,7 @@ class _SuggestionScreenState extends State<SuggestionScreen> {
             child: SizedBox(
               width: 1000,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
                     height: 20,

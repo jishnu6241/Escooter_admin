@@ -78,15 +78,17 @@ class WithdrawRequestCard extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                '₹${withdrawRequest['desposit_amount'].toString()}',
+                '₹500',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              Divider(
-                height: withdrawRequest['status'] == 'pending' ? 30 : 0,
-              ),
+              withdrawRequest['status'] == 'pending'
+                  ? const Divider(
+                      height: 30,
+                    )
+                  : const SizedBox(),
               withdrawRequest['status'] == 'pending'
                   ? CustomActionButton(
                       iconData: Icons.done_all_outlined,
@@ -94,7 +96,8 @@ class WithdrawRequestCard extends StatelessWidget {
                       color: Colors.blue[700]!,
                       onPressed: () {
                         withdrawRequestBloc.add(
-                          UpdateWithdrawRequestStatusEvent(status: 'paid'),
+                          UpdateWithdrawRequestStatusEvent(
+                              id: withdrawRequest['id']),
                         );
                       },
                     )

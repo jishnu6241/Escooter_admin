@@ -87,6 +87,7 @@ class _ScooterScreenState extends State<ScooterScreen> {
                               context: context,
                               builder: (context) => AddEditScooterDialog(
                                 scooterBloc: scooterBloc,
+                                status: status,
                               ),
                             );
                           },

@@ -1,10 +1,13 @@
 import 'package:escooter_admin/ui/widgets/custom_card.dart';
 import 'package:escooter_admin/ui/widgets/label_with_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RidesCard extends StatelessWidget {
+  final Map<String, dynamic> rideDetails;
   const RidesCard({
     super.key,
+    required this.rideDetails,
   });
 
   @override
@@ -12,6 +15,7 @@ class RidesCard extends StatelessWidget {
     return SizedBox(
       width: 480,
       child: CustomCard(
+        color: Colors.greenAccent[100],
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
           child: Column(
@@ -20,14 +24,14 @@ class RidesCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "#11",
+                    "#${rideDetails['id'].toString()}",
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
                         ),
                   ),
                   Text(
-                    "On Ride",
+                    rideDetails['status'] == 'complete' ? 'On Hold' : 'On Ride',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -40,18 +44,20 @@ class RidesCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Scooter',
-                      text: 'KL 13 A 1234',
+                      text: rideDetails['scooter']['plate_no']
+                          .toString()
+                          .toUpperCase(),
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Rider',
-                      text: 'John',
+                      text: rideDetails['user']['name'],
                     ),
                   ),
                 ],
@@ -61,18 +67,20 @@ class RidesCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Start Hub',
-                      text: 'Kannur',
+                      text: rideDetails['start_hub']['name'],
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'End Hub',
-                      text: 'Payyannur',
+                      text: rideDetails['end_hub'] != null
+                          ? rideDetails['end_hub']['name']
+                          : 'Scooter is on ride',
                     ),
                   ),
                 ],
@@ -82,19 +90,24 @@ class RidesCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Start Time',
-                      text: '12/12/2022 10:00 am',
+                      text: DateFormat('dd/MM/yyyy hh:mm a').format(
+                        DateTime.parse(rideDetails['start_time']).toLocal(),
+                      ),
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      label: 'End Time',
-                      text: '01/01/2023 10:00 am',
-                    ),
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        label: 'End Time',
+                        text: rideDetails['end_time'] != null
+                            ? DateFormat('dd/MM/yyyy hh:mm a').format(
+                                DateTime.parse(rideDetails['end_time']),
+                              )
+                            : 'Scooter is on ride'),
                   ),
                 ],
               ),
@@ -103,18 +116,22 @@ class RidesCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Expanded(
                     child: LabelWithText(
                       label: 'Amount',
-                      text: '₹200',
+                      text: rideDetails['status'] == 'active'
+                          ? 'Scooter is on ride'
+                          : '₹${rideDetails['amount'].toString()}',
                     ),
                   ),
                   Expanded(
                     child: LabelWithText(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       label: 'Payment Status',
-                      text: 'Pending',
+                      text: rideDetails['status'] == 'complete'
+                          ? 'Paid'
+                          : 'Pending',
                     ),
                   ),
                 ],
